@@ -33,6 +33,20 @@ Before defining tasks, map out which files will be created or modified and what 
 
 This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
 
+## Source and Contract Checks
+
+Before defining tasks, identify whether the plan depends on external contracts or current framework behavior.
+
+Add explicit plan steps only when relevant:
+
+- **Versioned framework/API behavior:** Read the project's dependency/config files and include a step to check official docs for the detected version before implementing framework-specific patterns.
+- **Public interfaces:** If the change touches REST/GraphQL endpoints, CLI flags, exported modules, component props, file formats, events, or database schemas, define the contract first and include backward compatibility or migration notes.
+- **External data:** If the change consumes third-party APIs, browser data, uploaded files, webhooks, logs, or generated content, include boundary validation and treat the data as untrusted.
+- **Dependencies:** If a task may add a dependency, include an explicit justification checkpoint covering existing-stack alternatives, maintenance, security, license, and runtime/bundle impact.
+- **Architecture decisions:** If the plan chooses an expensive-to-reverse approach, public API, data model, auth strategy, infrastructure path, or major dependency, include a task to write or update an ADR.
+
+Do not add these checks as ceremony for trivial local edits. Use them when the task crosses a boundary or relies on behavior outside the immediate code being changed.
+
 ## Bite-Sized Task Granularity
 
 **Each step is one action (2-5 minutes):**
@@ -128,6 +142,8 @@ After writing the complete plan, look at the spec with fresh eyes and check the 
 **2. Placeholder scan:** Search your plan for red flags — any of the patterns from the "No Placeholders" section above. Fix them.
 
 **3. Type consistency:** Do the types, method signatures, and property names you used in later tasks match what you defined in earlier tasks? A function called `clearLayers()` in Task 3 but `clearFullLayers()` in Task 7 is a bug.
+
+**4. Contract/source coverage:** If the plan touches framework-specific APIs, public interfaces, external data, dependencies, or architectural decisions, did you include the relevant docs, compatibility, validation, dependency, or ADR step?
 
 If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
 

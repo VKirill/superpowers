@@ -30,16 +30,39 @@ Task tool (general-purpose):
 
     Once you're clear on requirements:
     1. Implement exactly what the task specifies
-    2. Write tests (following TDD if task says to)
-    3. Verify implementation works
-    4. Commit your work
-    5. Self-review (see below)
-    6. Report back
+    2. Work in the smallest complete slice that leaves the project testable
+    3. Write tests (following TDD if task says to)
+    4. Verify implementation works
+    5. Commit your work
+    6. Self-review (see below)
+    7. Report back
 
     Work from: [directory]
 
     **While you work:** If you encounter something unexpected or unclear, **ask questions**.
     It's always OK to pause and clarify. Don't guess or make assumptions.
+
+    ## Increment Discipline
+
+    Keep each logical increment working and easy to review:
+    - Build the simplest thing that satisfies the current task; don't generalize for hypothetical future use.
+    - Keep the project compiling/testable after each logical slice.
+    - Change one concern at a time. Don't mix behavior changes, refactors, dependency changes, and formatting churn.
+    - Prefer adding or changing the narrowest code path that proves the requested behavior.
+    - If the task is bigger than expected, stop and report DONE_WITH_CONCERNS or NEEDS_CONTEXT instead of expanding scope silently.
+
+    ## Scope Discipline
+
+    Touch only files required for this task.
+
+    **Do not:**
+    - Clean up unrelated nearby code
+    - Reformat files just because you opened them
+    - Modernize syntax outside the requested change
+    - Remove comments or compatibility code you don't fully understand
+    - Add dependencies unless the task explicitly requires it or you escalate first
+
+    If you notice unrelated problems, report them under "Noticed but not touched" instead of fixing them.
 
     ## Code Organization
 
@@ -89,6 +112,8 @@ Task tool (general-purpose):
     - Did I avoid overbuilding (YAGNI)?
     - Did I only build what was requested?
     - Did I follow existing patterns in the codebase?
+    - Did I avoid unrelated cleanup, formatting churn, and speculative abstractions?
+    - Did I keep dependency/API changes inside the task scope?
 
     **Testing:**
     - Do tests actually verify behavior (not just mock behavior)?
@@ -106,6 +131,7 @@ Task tool (general-purpose):
     - Files changed
     - Self-review findings (if any)
     - Any issues or concerns
+    - Noticed but not touched (unrelated issues, if any)
 
     Use DONE_WITH_CONCERNS if you completed the work but have doubts about correctness.
     Use BLOCKED if you cannot complete the task. Use NEEDS_CONTEXT if you need
