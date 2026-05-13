@@ -18,6 +18,28 @@ Next up, once you say "go", it launches a *subagent-driven-development* process,
 
 There's a bunch more to it, but that's the core of the system. And because the skills trigger automatically, you don't need to do anything special. Your coding agent just has Superpowers.
 
+## VKirill Fork Notes
+
+This fork keeps the upstream Superpowers workflow intact, but adds a small set of Codex-focused skill updates. The goal is practical: preserve local review and verification improvements so marketplace/plugin updates do not wipe them out.
+
+The changes are intentionally limited to existing skill prompts. No new skills, dependencies, or plugin bootstrap behavior were added.
+
+### What Changed
+
+- **Code review is stricter and more concrete.** `requesting-code-review` now asks reviewers to check tests first, then review correctness, readability, architecture, security, performance, production readiness, verification evidence, dependency impact, and documentation/ADR needs.
+- **Reviewers get change-size guidance.** The reviewer prompt now treats about 100 changed lines as easy to review, about 300 as acceptable for one logical change, and about 1000 as a signal to split the work. Large deletions and mechanical refactors can still be fine when the intent is easy to verify.
+- **Tool-assisted review is explicit.** Reviewers may use Serena for symbol navigation, GitNexus for blast-radius checks, docs MCP tools for version-sensitive APIs, and browser/runtime tools for UI behavior when those tools are available and relevant.
+- **Implementation agents have tighter scope discipline.** `subagent-driven-development` now tells implementers to work in the smallest complete slice, avoid unrelated cleanup, avoid formatting churn, and report unrelated issues as "Noticed but not touched" instead of fixing them opportunistically.
+- **UI completion requires browser evidence.** `verification-before-completion` now calls out browser/runtime verification for UI changes: route loaded, console/network checked, interaction exercised, and layout/text fit inspected where relevant.
+- **Planning now checks contracts and sources.** `writing-plans` now asks planners to add source-doc checks, public-interface compatibility, external-data validation, dependency justification, and ADR tasks when the change crosses those boundaries.
+
+### Files Changed In This Fork
+
+- `skills/requesting-code-review/code-reviewer.md`
+- `skills/subagent-driven-development/implementer-prompt.md`
+- `skills/verification-before-completion/SKILL.md`
+- `skills/writing-plans/SKILL.md`
+
 
 ## Sponsorship
 
